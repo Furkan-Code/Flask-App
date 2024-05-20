@@ -3,25 +3,20 @@ from transformers import pipeline, AutoModelForSequenceClassification, AutoToken
 
 app = Flask(__name__)
 
-model_path = "C:\\Users\\Furkan\\Desktop\\content\\outputs"
-tokenizer_path = "C:\\Users\\Furkan\\Desktop\\content\\outputs"
-# Model ve tokenizer yükleniyor
-tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
-model = AutoModelForSequenceClassification.from_pretrained(model_path)
+# Model ve tokenizer Hugging Face'den yükleniyor
+tokenizer = AutoTokenizer.from_pretrained("kantura06/dm-demprem")
+model = AutoModelForSequenceClassification.from_pretrained("kantura06/dm-demprem")
 nlp = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
-
 @app.route('/')
-
 def start():
     return "The MBSA Server is running"
-@app.route('/mbsa')
 
+@app.route('/mbsa')
 def mbsa():
     return render_template('index.html')
 
 @app.route('/analyze', methods=['POST'])
-
 def analyze():
     data = request.get_json()
     text = data['text']
